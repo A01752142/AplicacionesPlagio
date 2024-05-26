@@ -1,3 +1,7 @@
+# Autores: A01752142 - Sandra Ximena Téllez Olvera
+#          A01749164 - Jeovani Hernandez Bastida
+#          A01025261 - Maximiliano Carrasco Rojas
+
 import unittest
 from preprocesamiento import eliminar_puntuacion, procesar_parrafos, generar_ngrams, leer_documentos, similitud_coseno, calcular_distancia
 import os

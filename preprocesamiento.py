@@ -1,3 +1,7 @@
+# Autores: A01752142 - Sandra Ximena Téllez Olvera
+#          A01749164 - Jeovani Hernandez Bastida
+#          A01025261 - Maximiliano Carrasco Rojas
+
 import os
 import string
 import re
