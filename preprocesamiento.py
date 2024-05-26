@@ -158,7 +158,7 @@ else:
     print(f"\nComparando el archivo '{nombre_archivo_comparar}' con documentos en la carpeta 'Documentos':")
     for nombre_documento, contenido_documento in documentos.items():
         distancia = calcular_distancia(documento_comparar, contenido_documento, 2)
-        if distancia > 0.25:
+        if distancia > 0.10:
             print(f"  {nombre_documento}: {(distancia * 100):.2f}% - Plagio detectado")
             caso_detectado = True
         elif 0.05 < distancia <= 0.10:
