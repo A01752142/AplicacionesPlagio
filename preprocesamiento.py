@@ -12,11 +12,19 @@ import numpy as np
 nltk.download('punkt')
 nltk.download('stopwords')
 
-# Inicializar el stemmer de Snowball para español
-stemmer = SnowballStemmer("spanish")
-stop_words = set(stopwords.words('spanish'))
+# Inicializar el stemmer de Snowball para inglés
+stemmer = SnowballStemmer("english")
+stop_words = set(stopwords.words('english'))
 
 def eliminar_puntuacion(texto):
+    """
+    Función que elimina la puntuación del texto dado.
+    Args: 
+        texto (str): El texto del cual eliminar la puntuación.
+    Returns:
+        str: El texto sin puntuación.
+    """
+    
     # Crear una tabla de traducción que mapea cada signo de puntuación a None
     tabla_traduccion = str.maketrans('', '', string.punctuation)
     
@@ -25,21 +33,41 @@ def eliminar_puntuacion(texto):
     
     return texto_sin_puntuacion
 
-# Función de preprocesamiento
 def procesar_parrafos(text):
+    """
+    Función que realiza el preprocesamiento del texto dado.
+    Args:
+        text (str): El texto a procesar.
+    Returns:
+        list: Lista de palabras procesadas.
+    """
     texto = text.lower()                                                              # Estandarizamos a minúsculas
     texto = re.sub(r'[^\w\s]', '', texto)                                             # Eliminamos la puntuación
     palabras = word_tokenize(texto)                                                   # Dividimos los párrafos en palabras
     palabras = [stemmer.stem(word) for word in palabras if word not in stop_words]    # Nos quedamos con la raíz de la palabra y aplicamos stemming
     return palabras
 
-# Función para generar n-gramas
 def generar_ngrams(words, n):
+    """
+    Función que genera n-gramas a partir de una lista de palabras.
+    Args:
+        words (list): Lista de palabras.
+        n (int): Longitud del n-grama.
+    Returns:
+        list: Lista de n-gramas generados.
+    """
     ngrams = zip(*[words[i:] for i in range(n)])
     return [' '.join(ngram) for ngram in ngrams]
 
-# Función para leer documentos de la carpeta Documentos
 def leer_documentos(carpeta):
+    """
+    Función que lee documentos de la carpeta especificada y los procesa.
+    Args:
+        carpeta (str): Nombre de la carpeta que contiene los documentos.
+    Returns:
+        dict: Diccionario con nombres de archivos como claves y listas de palabras procesadas como valores.
+    """
+    
     documentos_path = os.path.join(os.path.dirname(__file__), carpeta)  # Ruta
     documentos = {}  # Diccionario para almacenar los documentos
     
@@ -56,15 +84,32 @@ def leer_documentos(carpeta):
                 
     return documentos
 
-# Función para calcular la similitud del coseno
 def similitud_coseno(v1, v2):
+    """
+    Función que calcula la similitud del coseno entre dos vectores.
+    Args:
+        v1 (array): Primer vector.
+        v2 (array): Segundo vector.
+    Returns:
+        float: Similitud del coseno entre los dos vectores.
+    """
+    
     producto_punto = np.dot(v1, v2)
     vec1 = np.linalg.norm(v1)
     vec2 = np.linalg.norm(v2)
     return producto_punto / (vec1 * vec2)
 
-# Función para calcular la distancia entre documentos usando n-gramas
 def calcular_distancia(p1, p2, n):
+    """
+    Función que calcula la distancia entre dos documentos usando n-gramas.    
+    Args:
+        p1 (list): Lista de palabras del primer documento.
+        p2 (list): Lista de palabras del segundo documento.
+        n (int): Longitud del n-grama.
+    Returns:
+        float: Similitud del coseno entre los vectores de frecuencia de los n-gramas de los documentos.
+    """
+    
     # Generamos n-gramas
     ngrams1 = generar_ngrams(p1, n)
     ngrams2 = generar_ngrams(p2, n)
