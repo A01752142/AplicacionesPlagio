@@ -159,10 +159,10 @@ else:
     for nombre_documento, contenido_documento in documentos.items():
         distancia = calcular_distancia(documento_comparar, contenido_documento, 2)
         if distancia > 0.25:
-            print(f"  {nombre_documento}: {distancia} - Plagio detectado")
+            print(f"  {nombre_documento}: {(distancia * 100):.2f}% - Plagio detectado")
             caso_detectado = True
-        elif 0.10 < distancia <= 0.25:
-            print(f"  {nombre_documento}: {distancia} - Reutilización de texto detectada")
+        elif 0.05 < distancia <= 0.10:
+            print(f"  {nombre_documento}: {(distancia * 100):.2f}% - Reutilización de texto detectada")
             caso_detectado = True
     print()
 
