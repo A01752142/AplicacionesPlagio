@@ -6,12 +6,10 @@ import os
 import string
 import re
 import nltk
-import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from collections import Counter
-from sklearn.metrics import roc_curve
 import numpy as np
 
 # Asegurarse de que los recursos de NLTK estén descargados
