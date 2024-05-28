@@ -6,10 +6,12 @@ import os
 import string
 import re
 import nltk
+import matplotlib.pyplot as plt
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import SnowballStemmer
 from collections import Counter
+from sklearn.metrics import roc_curve
 import numpy as np
 
 # Asegurarse de que los recursos de NLTK estén descargados
@@ -157,10 +159,10 @@ else:
     # Aplicar la función de distancia entre el documento seleccionado y cada documento de Documentos
     print(f"\nComparando el archivo '{nombre_archivo_comparar}' con documentos en la carpeta 'Documentos':")
     for nombre_documento, contenido_documento in documentos.items():
-        distancia = calcular_distancia(documento_comparar, contenido_documento, 2)
+        distancia = calcular_distancia(documento_comparar, contenido_documento, 2)        
         if distancia > 0.10:
             print(f"  {nombre_documento}: {(distancia * 100):.2f}% - Plagio detectado")
-            caso_detectado = True
+            caso_detectado = True          
         elif 0.05 < distancia <= 0.10:
             print(f"  {nombre_documento}: {(distancia * 100):.2f}% - Reutilización de texto detectada")
             caso_detectado = True
@@ -169,3 +171,26 @@ else:
     # Si no se ha detectado ningún caso de plagio o reutilización de texto, imprimir "Archivo libre de plagio"
     if not caso_detectado:
         print("Archivo libre de plagio")
+    
+def calcular_auc():
+    """
+    Calcula el AUC (Area Under the Curve) utilizando la fórmula dada.
+
+    Retorna:
+    AUC (float): Valor del AUC calculado.
+    """
+    
+    # Calcular la tasa de verdaderos positivos (TPR) y la tasa de falsos positivos (FPR)
+    TPR = 9 / (9 + 2)   # Tasa de verdaderos positivos
+    FPR = 1 / (1 + 8)   # Tasa de falsos positivos
+    
+    # Calcular el AUC utilizando la fórmula dada
+    AUC = (1 + TPR - FPR) / 2 
+    
+    return AUC
+
+# Llamar a la función para calcular el AUC
+auc = calcular_auc()
+
+# Imprimir el resultado
+print("\n" f"El AUC calculado es: {auc:.2f}" "\n")
